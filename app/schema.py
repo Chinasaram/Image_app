@@ -1,9 +1,10 @@
 import email
+import os
 from pydantic import BaseModel
 from fastapi_jwt_auth import AuthJWT
 
 class Settings(BaseModel):
-    authjwt_secret_key: str = "cf2e086454c282ba8f21c1afef4a944c5d5dca0b92c3aaed173695d1c848ab7b"
+    authjwt_secret_key: str = os.getenv("SECRET")
 
 @AuthJWT.load_config
 def load_config():

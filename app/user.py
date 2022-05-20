@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException
-import schema
+from . import schema
 from typing import List
 from fastapi_jwt_auth import AuthJWT
 
