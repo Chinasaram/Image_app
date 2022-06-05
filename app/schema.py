@@ -1,17 +1,16 @@
-import email
-import os
+from typing import Union
+from uuid import UUID
 
-from fastapi_jwt_auth import AuthJWT
 from pydantic import BaseModel
 
 
-class Settings(BaseModel):
-    authjwt_secret_key: str = os.getenv("SECRET")
+class Token(BaseModel):
+    access_token: str
+    token_type: str
 
 
-@AuthJWT.load_config
-def load_config():
-    return Settings()
+class TokenData(BaseModel):
+    username: Union[str, None] = None
 
 
 class User(BaseModel):
@@ -37,6 +36,13 @@ class Login(BaseModel):
 
     class Config:
         schema_extra = {"example": {"username": "jdoe", "password": "password"}}
+
+
+class Image(BaseModel):
+    image_id: UUID
+    image: str
+    uploader: str
+    time_uploaded: str
 
 
 users = []
