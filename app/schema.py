@@ -1,7 +1,7 @@
+from datetime import datetime
 from typing import Union
-from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr, FilePath
 
 
 class Token(BaseModel):
@@ -16,7 +16,7 @@ class TokenData(BaseModel):
 class User(BaseModel):
     full_name: str
     username: str
-    email: str
+    email: EmailStr
     password: str
 
     class Config:
@@ -38,11 +38,15 @@ class Login(BaseModel):
         schema_extra = {"example": {"username": "jdoe", "password": "password"}}
 
 
+class UserInDB(User):
+    username: str
+    email: EmailStr
+
+    class Config:
+        orm_mode = True
+
+
 class Image(BaseModel):
-    image_id: UUID
-    image: str
-    uploader: str
-    time_uploaded: str
-
-
-users = []
+    image: FilePath
+    uploader: UserInDB
+    uploaded_at: datetime = datetime.utcnow()
